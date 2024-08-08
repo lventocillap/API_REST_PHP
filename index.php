@@ -10,14 +10,17 @@ use Src\Repository\MovieRepository;
 header('Content-Type: application/json; charset=utf-8');
 
 $movie = new MovieRepository();
-$movies = $movie->getAll();
 
+$movies = $movie->getAll();
+$movieID = $movie->getById(1);
 
 // $movie->updateMovie(1, 'Deedpool', 'Violence', '02:28:00', '2010-07-16', false);
 
 // $movie->inserMovie('Minions', 'Animation', '02:28:00', '2010-07-16', true);
 
-$movie->deleteMovie(13);
+// $movie->deleteMovie(13);
 
-// $movieID = $movie->getById(1);
+
 // echo json_encode($movieID->jsonSerialize(), JSON_PRETTY_PRINT);
+
+echo json_encode($movies, JSON_PRETTY_PRINT);
