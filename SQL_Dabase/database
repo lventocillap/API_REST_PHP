@@ -1,0 +1,69 @@
+create database cinema;
+
+use cinema;
+
+create table User(
+	id bigint auto_increment,
+    email varchar(255),
+    password varchar(255),
+    primary key(id)
+);
+
+create table Movie(
+	id bigint auto_increment,
+    title varchar(255),
+    gender varchar(255),
+    time time,
+    premiere date,
+    state boolean,
+    primary key(id)
+);
+
+create table Hall(
+	id bigint auto_increment,
+    capacity int,
+    state boolean,
+    primary key(id)
+);
+
+create table Seat(
+	id bigint auto_increment,
+    hall_id bigint,
+    nro_seat char(3),
+    state boolean,
+    primary key(id),
+    foreign key(hall_id) references Hall(id)
+);
+
+create table Billboard(
+	id bigint auto_increment,
+    movie_id bigint,
+    hall_id bigint,
+    star_date date,
+    end_date date,
+    time_proyection time,
+    primary key(id),
+    foreign key(movie_id) references Movie(id),
+    foreign key(hall_id) references Hall(id)
+);
+
+create table Sale(
+	id bigint auto_increment,
+    user_id bigint,
+    date datetime,
+    total_price decimal(6,2),
+    primary key(id),
+    foreign key(user_id) references User(id)
+);
+
+create table Detail_sale(
+	id bigint auto_increment,
+    sale_id bigint,
+    billboard_id bigint,
+    seat_id bigint,
+    price decimal(6,2),
+    primary key(id),
+    foreign key(sale_id) references Sale(id),
+    foreign key(billboard_id) references Billboard(id),
+    foreign key(seat_id) references Seat(id)
+);
