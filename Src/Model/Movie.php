@@ -48,7 +48,7 @@ class Movie
         return $this->state;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerializeMovie(): array
     {
         return [
             'id' => $this->id,
@@ -56,7 +56,7 @@ class Movie
             'gender' => $this->gender,
             'time' => $this->time,
             'premiere' =>$this->premiere,
-            'state' => $this->state
+            'state' => $this->state === 1 ? true : false
         ];
     }
 }

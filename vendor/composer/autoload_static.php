@@ -11,12 +11,20 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         array (
             'Src\\' => 4,
         ),
+        'R' => 
+        array (
+            'Router\\' => 7,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Src\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Router\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Router',
         ),
     );
 

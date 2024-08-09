@@ -1,26 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+// Configura el autoloading si estás usando Composer
 require 'vendor/autoload.php';
 
-use Src\Database\Conexion;
-use Src\Repository\MovieRepository;
+// Incluye el archivo del enrutador
+require 'Router/Router.php';
+
+// Usa el namespace del enrutador
+use Router\Router;
 
 header('Content-Type: application/json; charset=utf-8');
 
-$movie = new MovieRepository();
+// Crea una instancia del enrutador y carga las rutas
+$router = new Router(__DIR__ . '/Router/routes.php');
 
-$movies = $movie->getAll();
-$movieID = $movie->getById(1);
+// Obtiene la URI y el método de la solicitud
+$requestUri = $_SERVER['REQUEST_URI'];
+$requestMethod = $_SERVER['REQUEST_METHOD'];
 
-// $movie->updateMovie(1, 'Deedpool', 'Violence', '02:28:00', '2010-07-16', false);
-
-// $movie->inserMovie('Minions', 'Animation', '02:28:00', '2010-07-16', true);
-
-// $movie->deleteMovie(13);
-
-
-// echo json_encode($movieID->jsonSerialize(), JSON_PRETTY_PRINT);
-
-echo json_encode($movies, JSON_PRETTY_PRINT);
+// Despacha la solicitud al enrutador
+$router->dispatch($requestMethod, $requestUri);

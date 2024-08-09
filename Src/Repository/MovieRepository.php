@@ -73,7 +73,7 @@ class MovieRepository
         }
     }
 
-    public function inserMovie(string $title, string $gender, string $time, string $premiere, bool $state): void
+    public function insertMovie(string $title, string $gender, string $time, string $premiere, bool $state): void
     {
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
