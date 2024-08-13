@@ -1,6 +1,7 @@
 <?php
 
 use Src\Controller\MovieController;
+use Src\Repository\InnerMovieBillboard;
 use Src\Repository\MovieRepository;
 
 
@@ -9,7 +10,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 // Crear instancias necesarias
 $movie = new MovieRepository();
-$dato = new MovieController($movie);
+$inner = new InnerMovieBillboard();
+
+$dato = new MovieController($movie, $inner);
 
 return [
   'GET' => [

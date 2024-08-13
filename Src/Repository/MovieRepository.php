@@ -19,7 +19,15 @@ class MovieRepository
         $conexion = new Conexion;
         $PDO = $conexion->getConexion();
         foreach ($PDO->query('SELECT * from movie') as $fila) {
-            $movies[] = $fila;
+
+            $movie = new Movie($fila['id'], 
+            $fila['title'],
+            $fila['gender'],
+            $fila['time'],
+            $fila['premiere'],
+            $fila['state']=1 ? true : false);
+
+            $movies[] = $movie;
         }
         return $movies;
     }

@@ -6,11 +6,14 @@ namespace Src\Controller;
 
 
 use Src\Repository\MovieRepository;
+use Src\Repository\InnerMovieBillboard;
 
 class MovieController{
 
     public function __construct(
-        private MovieRepository $movieRepository
+
+        private MovieRepository $movieRepository,
+        private InnerMovieBillboard $inner
     )
     {
     }
@@ -18,7 +21,9 @@ class MovieController{
     public function index(): void
     {
         $movies = $this->movieRepository->getAll();
-        echo json_encode($movies,JSON_PRETTY_PRINT);
+        $inner = $this->inner->innerTables();
+
+        echo json_encode($inner,JSON_PRETTY_PRINT);
     }
 
     public function filterMovie($id): void

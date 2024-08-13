@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Model;
 
-class Movie
+class Movie 
 {
 
     public function __construct(
@@ -22,9 +22,19 @@ class Movie
         return $this->id;
     }
 
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 
     public function getGender(): string
@@ -32,9 +42,19 @@ class Movie
         return $this->gender;
     }
 
+    public function setGender(string $gender): void
+    {
+        $this->gender = $gender;
+    }
+
     public function getTime(): string
     {
         return $this->time;
+    }
+
+    public function setTime(string $time): void
+    {
+        $this->time = $time;
     }
 
     public function getPremiere(): string
@@ -42,11 +62,23 @@ class Movie
         return $this->premiere;
     }
 
+    public function setPremiere(string $premiere): void
+    {
+        $this->premiere = $premiere;
+    }
+
     public function getState(): bool
     {
         
         return $this->state;
     }
+
+    public function setState(bool $state): void
+    {
+        $this->state = $state;
+    }
+
+    
 
     public function jsonSerializeMovie(): array
     {
