@@ -2,8 +2,9 @@
 
 use Src\Controller\MovieController;
 use Src\Repository\InnerMovieBillboard;
+use Src\Repository\InsertDetailSale;
 use Src\Repository\MovieRepository;
-
+use Src\Repository\SeatAvalaible;
 
 // Cargar el autoloading si estás usando Composer
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -11,8 +12,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // Crear instancias necesarias
 $movie = new MovieRepository();
 $inner = new InnerMovieBillboard();
+$seats = new SeatAvalaible();
+$insertSeats = new InsertDetailSale($seats);
 
-$dato = new MovieController($movie, $inner);
+$dato = new MovieController($movie, $inner, $seats, $insertSeats);
 
 return [
   'GET' => [
@@ -26,6 +29,9 @@ return [
   'POST' => [
     'movie' => function () use ($dato) {
       $dato->newMovie();
+    },
+    'detail_sale' => function () use ($dato) {
+      $dato->insertDetailSale();
     },
   ],
 
