@@ -41,8 +41,9 @@ class InsertDetailSale
                 $stmt->bindParam(':price',$price,PDO::PARAM_STR);
 
                 $stmt->execute();
-                echo json_encode(['message'=>'movie create sucessfutty']);
+                
             }
+            echo json_encode(['message'=>'movie create sucessfutty']);
         }else{
             echo "error";
         }

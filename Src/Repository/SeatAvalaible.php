@@ -44,15 +44,12 @@ class SeatAvalaible
         $stm = $PDO->prepare('SELECT * FROM seat WHERE id = :id');
         $stm->bindParam(':id', $id, PDO::PARAM_INT);
         $stm->execute();
-
-        foreach($stm as $fila){
+        $seatId = $stm->fetch(PDO::FETCH_ASSOC);
             $seat = new Seat(
-                $fila['id'],
-                $fila['nro_seat'],
-                $fila['state'] === 1 ? true : false
+                $seatId['id'],
+                $seatId['nro_seat'],
+                $seatId['state'] === 1 ? true : false
             );
-        }
         return $seat;
-
     }
 }

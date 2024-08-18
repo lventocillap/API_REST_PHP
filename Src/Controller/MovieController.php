@@ -30,10 +30,10 @@ class MovieController{
         echo json_encode($inner,JSON_PRETTY_PRINT);
     }
 
-    public function filterMovie($id): void
+    public function filterBillboardSeat($id): void
     {
         $seats = $this->seats->seatAvalaible($id);
-        $movieId = $this->movieRepository->getById($id)->jsonSerializeMovie();
+        // $movieId = $this->movieRepository->getById($id)->jsonSerializeMovie();
 
         echo json_encode($seats,JSON_PRETTY_PRINT);
     }
@@ -62,7 +62,8 @@ class MovieController{
         $this->movieRepository->deleteMovie($id);
     }
 
-    public function insertDetailSale(){
+    public function insertDetailSale(): void
+    {
         $input = file_get_contents('php://input');
         $data = json_decode($input, true);
 
@@ -73,9 +74,7 @@ class MovieController{
 
         $this->insertDetailSale->insertDetailSale(
             $data['sale_id'], $data['billboard_id'], $seats, $data['price']
-        );
-
-        
+        );   
     }
 
     

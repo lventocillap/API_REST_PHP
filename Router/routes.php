@@ -22,8 +22,8 @@ return [
     'movie' => function () use ($dato) {
       $dato->index();
     },
-    'movie/{id}' => function ($movieId) use ($dato) {
-      $dato->filterMovie((int)$movieId);
+    'billboard/{id}/seat' => function ($movieId) use ($dato) {
+      $dato->filterBillboardSeat((int)$movieId);
     }
   ],
   'POST' => [
