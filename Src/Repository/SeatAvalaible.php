@@ -41,7 +41,7 @@ class SeatAvalaible
     {
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
-        $stm = $PDO->prepare('SELECT * FROM seat WHERE id = :id');
+        $stm = $PDO->prepare('SELECT * FROM seats WHERE id = :id');
         $stm->bindParam(':id', $id, PDO::PARAM_INT);
         $stm->execute();
         $seatId = $stm->fetch(PDO::FETCH_ASSOC);

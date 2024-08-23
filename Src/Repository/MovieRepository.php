@@ -20,12 +20,13 @@ class MovieRepository
         $conexion = new Conexion;
         $PDO = $conexion->getConexion();
         foreach ($PDO->query('SELECT * from movies') as $fila) {
-            $movie = new Movie($fila['id'], 
-            $fila['title'],
-            $fila['gender'],
-            $fila['time'],
-            $fila['premiere'],
-            $fila['status'] == 1 ? true : false
+            $movie = new Movie(
+                $fila['id'],
+                $fila['title'],
+                $fila['gender'],
+                $fila['time'],
+                $fila['premiere'],
+                $fila['status'] == 1 ? true : false
             );
 
             $movies[] = $movie->jsonSerializeMovie();
@@ -50,7 +51,7 @@ class MovieRepository
             $movie['gender'],
             $movie['time'],
             $movie['premiere'],
-            $movie['state'] === 1 ? true : false
+            $movie['status'] === 1 ? true : false
         );
     }
 
@@ -110,11 +111,11 @@ class MovieRepository
         }
     }
 
-    public function deleteMovie(int $id):void
+    public function deleteMovie(int $id): void
     {
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
-        try{
+        try {
             $stmt = $PDO->prepare('DELETE FROM movies WHERE id = :id');
 
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
@@ -122,29 +123,53 @@ class MovieRepository
             $stmt->execute();
 
             echo "Se borro el id : $id";
-        }catch(PDOException $e){
-            echo "ERROR : ".$e->getMessage();
+        } catch (PDOException $e) {
+            echo "ERROR : " . $e->getMessage();
         }
     }
 
-    public function getParamsMovie(string $title): array
+    public function getParamAndMovie(string $title, string $gender): array
     {
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
-
-        $stmt = $PDO->prepare('SELECT * FROM movies WHERE title LIKE :title');
-
+        $stmt = $PDO->prepare('SELECT * FROM movies WHERE title LIKE :title AND gender LIKE :gender');
         $titleparam = "$title%";
+        $genderparam = "$gender%";
         $stmt->bindParam(':title', $titleparam, PDO::PARAM_STR);
+        $stmt->bindParam(':gender', $genderparam, PDO::PARAM_STR);
         $stmt->execute();
-
         foreach ($stmt as $fila) {
-            $movie = new Movie($fila['id'], 
-            $fila['title'],
-            $fila['gender'],
-            $fila['time'],
-            $fila['premiere'],
-            $fila['status'] == 1 ? true : false
+            $movie = new Movie(
+                $fila['id'],
+                $fila['title'],
+                $fila['gender'],
+                $fila['time'],
+                $fila['premiere'],
+                $fila['status'] == 1 ? true : false
+            );
+
+            $movies[] = $movie->jsonSerializeMovie();
+        }
+        return $movies;
+    }
+    public function getParamOrMovie(string $title, string $gender): array
+    {
+        $conexion = new Conexion();
+        $PDO = $conexion->getConexion();
+        $stmt = $PDO->prepare('SELECT * FROM movies WHERE title LIKE :title OR gender LIKE :gender');
+        $titleparam = "$title%";
+        $genderparam = "$gender%";
+        $stmt->bindParam(':title', $titleparam, PDO::PARAM_STR);
+        $stmt->bindParam(':gender', $genderparam, PDO::PARAM_STR);
+        $stmt->execute();
+        foreach ($stmt as $fila) {
+            $movie = new Movie(
+                $fila['id'],
+                $fila['title'],
+                $fila['gender'],
+                $fila['time'],
+                $fila['premiere'],
+                $fila['status'] == 1 ? true : false
             );
 
             $movies[] = $movie->jsonSerializeMovie();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Controller;
 
+use Exception;
 use Src\Model\Billboard;
 use Src\Repository\MovieRepository;
 use Src\Repository\InnerMovieBillboard;
@@ -32,6 +33,12 @@ class MovieController{
         echo json_encode($movies,JSON_PRETTY_PRINT);
     }
 
+    public function filterMovie($id): void
+    {
+        $movieId = $this->movieRepository->getById($id)->jsonSerializeMovie();
+
+        echo json_encode($movieId,JSON_PRETTY_PRINT);
+    }
     public function filterBillboardSeat($id): void
     {
         $seats = $this->seats->seatAvalaible($id);
@@ -82,10 +89,15 @@ class MovieController{
     public function getParamsMovie(): void
     {
         $title = $this->queryUtils::query('title');
+        $gender = $this->queryUtils::query('gender');
 
-        $movies = $this->movieRepository->getParamsMovie($title);
-
-        echo json_encode($movies,JSON_PRETTY_PRINT);
+        try{
+            $movies = $this->movieRepository->getParamAndMovie($title, $gender);
+            echo json_encode($movies,JSON_PRETTY_PRINT);
+        }catch(Exception){
+            $movies = $this->movieRepository->getParamOrMovie($title, $gender);
+            echo json_encode($movies,JSON_PRETTY_PRINT);
+        }
     }
 
     public function indexBillboards(): void

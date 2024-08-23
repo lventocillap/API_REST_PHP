@@ -6,8 +6,13 @@ require 'vendor/autoload.php';
 // Incluye el archivo del enrutador
 require 'Router/Router.php';
 
+require 'Src/Shader/HandleException.php';
+
+set_exception_handler('Src\Shader\HandleException');
+
 // Usa el namespace del enrutador
 use Router\Router;
+
 
 header('Content-Type: application/json; charset=utf-8');
 

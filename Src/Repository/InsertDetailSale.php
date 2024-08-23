@@ -24,16 +24,17 @@ class InsertDetailSale
         $result = 1;
 
         foreach($seats as $seat){
-            $result *= (int)$seat['state'];
+            $result *= (int)$seat['status'];
         }
             $total = (bool)$result;
         if($total){
             foreach($seats as $seat){
-                $stmt = $PDO->prepare('INSERT INTO detail_sale(sale_id, billboard_id, seat_id, price)
+                
+                $stmt = $PDO->prepare('INSERT INTO detail_sales(sale_id, billboard_id, seat_id, price)
                 VALUES(:sale_id,
                 :billboard_id,
                 :seat_id,
-                :price)');
+                :price)'); 
 
                 $stmt->bindParam(':sale_id',$sale_id,PDO::PARAM_INT);
                 $stmt->bindParam(':billboard_id',$billboard_id,PDO::PARAM_INT);

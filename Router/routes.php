@@ -23,14 +23,14 @@ return [
   'GET' => [
     'movie' => function () use ($dato) {
 
-      if(QueryUtils::query('title') !== NULL){
+      if(QueryUtils::query('title') !== NULL || QueryUtils::query('gender') !== NULL){
         $dato->getParamsMovie();
       }else{
         $dato->index();
       }
     },
-    'seat' => function () use ($dato) {
-      
+    'movie/{id}' => function ($movieId) use ($dato) {
+      $dato->filterMovie((int)$movieId);
     },
     'billboard' => function () use ($dato) {
       $dato->indexBillboards();
