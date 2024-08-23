@@ -33,7 +33,7 @@ return [
       
     },
     'billboard' => function () use ($dato) {
-      
+      $dato->indexBillboards();
     },
     'hall' => function () use ($dato) {
       

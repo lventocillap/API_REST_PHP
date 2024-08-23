@@ -27,7 +27,6 @@ class MovieController{
     {
         
         $movies = $this->movieRepository->getAll();
-        // $inner = $this->inner->innerTables();
         
 
         echo json_encode($movies,JSON_PRETTY_PRINT);
@@ -89,5 +88,11 @@ class MovieController{
         echo json_encode($movies,JSON_PRETTY_PRINT);
     }
 
+    public function indexBillboards(): void
+    {
+        $billboaed = $this->inner->innerTables();
+        
+        echo json_encode($billboaed,JSON_PRETTY_PRINT);
+    }
     
 }
