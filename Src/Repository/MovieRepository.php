@@ -6,6 +6,7 @@ namespace Src\Repository;
 
 use PDO;
 use PDOException;
+use PSpell\Config;
 use Src\Database\Conexion;
 use Src\Model\Movie;
 
@@ -18,16 +19,16 @@ class MovieRepository
     {
         $conexion = new Conexion;
         $PDO = $conexion->getConexion();
-        foreach ($PDO->query('SELECT * from movie') as $fila) {
-
+        foreach ($PDO->query('SELECT * from movies') as $fila) {
             $movie = new Movie($fila['id'], 
             $fila['title'],
             $fila['gender'],
             $fila['time'],
             $fila['premiere'],
-            $fila['state']=1 ? true : false);
+            $fila['status'] == 1 ? true : false
+            );
 
-            $movies[] = $movie;
+            $movies[] = $movie->jsonSerializeMovie();
         }
         return $movies;
     }
@@ -37,7 +38,7 @@ class MovieRepository
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
 
-        $stmt = $PDO->prepare('SELECT * FROM movie WHERE id = :id');
+        $stmt = $PDO->prepare('SELECT * FROM movies WHERE id = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -59,12 +60,12 @@ class MovieRepository
         $PDO = $conexion->getConexion();
         try {
 
-            $stmt = $PDO->prepare('UPDATE movie SET 
+            $stmt = $PDO->prepare('UPDATE movies SET 
         title = :title, 
         gender = :gender,
         time = :time,
         premiere = :premiere,
-        state = :state
+        status = :state
         WHERE id = :id');
 
             $stmt->bindParam(':title', $title, PDO::PARAM_STR);
@@ -87,7 +88,7 @@ class MovieRepository
         $PDO = $conexion->getConexion();
         try {
 
-            $stmt = $PDO->prepare('INSERT INTO movie(title, gender, time, premiere, state) 
+            $stmt = $PDO->prepare('INSERT INTO movies(title, gender, time, premiere, status) 
         VALUES( 
         :title, 
         :gender,
@@ -111,10 +112,10 @@ class MovieRepository
 
     public function deleteMovie(int $id):void
     {
-        $conexion = new Conexion;
+        $conexion = new Conexion();
         $PDO = $conexion->getConexion();
         try{
-            $stmt = $PDO->prepare('DELETE FROM movie WHERE id = :id');
+            $stmt = $PDO->prepare('DELETE FROM movies WHERE id = :id');
 
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
 
@@ -124,5 +125,30 @@ class MovieRepository
         }catch(PDOException $e){
             echo "ERROR : ".$e->getMessage();
         }
+    }
+
+    public function getParamsMovie(string $title): array
+    {
+        $conexion = new Conexion();
+        $PDO = $conexion->getConexion();
+
+        $stmt = $PDO->prepare('SELECT * FROM movies WHERE title LIKE :title');
+
+        $titleparam = "$title%";
+        $stmt->bindParam(':title', $titleparam, PDO::PARAM_STR);
+        $stmt->execute();
+
+        foreach ($stmt as $fila) {
+            $movie = new Movie($fila['id'], 
+            $fila['title'],
+            $fila['gender'],
+            $fila['time'],
+            $fila['premiere'],
+            $fila['status'] == 1 ? true : false
+            );
+
+            $movies[] = $movie->jsonSerializeMovie();
+        }
+        return $movies;
     }
 }

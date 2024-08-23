@@ -20,7 +20,7 @@ class Hall{
             return[
                 'id' => $this->id,
                 'capacity' => $this->capacity,
-                'state' => $this->state
+                'status' => $this->state
             ];
     }
 }

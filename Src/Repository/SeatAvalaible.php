@@ -17,10 +17,10 @@ class SeatAvalaible
     {
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
-        $stm = $PDO->prepare('select s.id, s.nro_seat, s.state from billboard b
-        inner join hall h
+        $stm = $PDO->prepare('select s.id, s.nro_seat, s.status from billboards b
+        inner join rooms h
         on b.hall_id = h.id
-        inner join seat s 
+        inner join seats s 
         on s.hall_id = h.id
         where b.id = :id');
         $stm->bindParam(':id',$id, PDO::PARAM_INT);
@@ -29,7 +29,7 @@ class SeatAvalaible
             $seat = new Seat(
                 $fila['id'],
                 $fila['nro_seat'],
-                $fila['state'] === 1 ? true : false
+                $fila['status'] === 1 ? true : false
             );
 
             $seats[] = $seat->jsonSerializeSeat();
@@ -48,7 +48,7 @@ class SeatAvalaible
             $seat = new Seat(
                 $seatId['id'],
                 $seatId['nro_seat'],
-                $seatId['state'] === 1 ? true : false
+                $seatId['status'] === 1 ? true : false
             );
         return $seat;
     }

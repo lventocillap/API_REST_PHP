@@ -9,6 +9,7 @@ use Src\Repository\MovieRepository;
 use Src\Repository\InnerMovieBillboard;
 use Src\Repository\InsertDetailSale;
 use Src\Repository\SeatAvalaible;
+use Src\Utils\QueryUtils;
 
 class MovieController{
 
@@ -16,18 +17,20 @@ class MovieController{
         private MovieRepository $movieRepository,
         private InnerMovieBillboard $inner,
         private SeatAvalaible $seats,
-        private InsertDetailSale $insertDetailSale
+        private InsertDetailSale $insertDetailSale,
+        private QueryUtils $queryUtils
     )
     {
     }
 
     public function index(): void
     {
+        
         $movies = $this->movieRepository->getAll();
-        $inner = $this->inner->innerTables();
+        // $inner = $this->inner->innerTables();
         
 
-        echo json_encode($inner,JSON_PRETTY_PRINT);
+        echo json_encode($movies,JSON_PRETTY_PRINT);
     }
 
     public function filterBillboardSeat($id): void
@@ -75,6 +78,15 @@ class MovieController{
         $this->insertDetailSale->insertDetailSale(
             $data['sale_id'], $data['billboard_id'], $seats, $data['price']
         );   
+    }
+
+    public function getParamsMovie(): void
+    {
+        $title = $this->queryUtils::query('title');
+
+        $movies = $this->movieRepository->getParamsMovie($title);
+
+        echo json_encode($movies,JSON_PRETTY_PRINT);
     }
 
     

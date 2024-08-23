@@ -20,10 +20,10 @@ class InnerMovieBillboard
     {
         $conexion = new Conexion();
         $PDO = $conexion->getConexion();
-        foreach($PDO->query('select * from billboard b 
-        inner join movie m 
+        foreach($PDO->query('select * from billboards b 
+        inner join movies m 
         on b.movie_id = m.id
-        inner join hall h
+        inner join rooms h
         on b.hall_id = h.id') as $fila){
             
             $movie = new Movie($fila['movie_id'], 

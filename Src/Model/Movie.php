@@ -88,7 +88,7 @@ class Movie
             'gender' => $this->gender,
             'time' => $this->time,
             'premiere' =>$this->premiere,
-            'state' => $this->state === 1 ? true : false
+            'status' => $this->state
         ];
     }
 }

@@ -20,7 +20,7 @@ class Seat
         return[
             'id'=>$this->id,
             'nro_seat'=>$this->nro_seat,
-            'state'=>$this->state 
+            'status'=>$this->state 
         ];
     }
 }

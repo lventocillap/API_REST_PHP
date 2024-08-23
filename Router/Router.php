@@ -18,8 +18,7 @@ class Router
   public function dispatch(string $method, string $uri): void
   {
     // Normalize URI
-    $uri = trim($uri, '/');
-
+    $uri = trim(parse_url($uri, PHP_URL_PATH), '/');
     // Find the route
     $route = $this->findRoute($method, $uri);
 
